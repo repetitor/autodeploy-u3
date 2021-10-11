@@ -27,3 +27,38 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit  --filter testExample
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/scp-action@master
+      env:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        KEY: ${{ secrets.SSHKEY }}
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+#         port: ${{ secrets.PORT }}
+        source: .
+        target: "/home/u3/project"
+        
+    - name: multiple command
+      uses: appleboy/ssh-action@master
+      env:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        KEY: ${{ secrets.SSHKEY }}
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+#         port: ${{ secrets.PORT }}
+        script: |
+          whoami
+          ls -al
