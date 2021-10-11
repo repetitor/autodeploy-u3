@@ -62,4 +62,4 @@ jobs:
         script: |
           whoami
           ls -al
-          cd /home/u3/otus-laradock && docker-compose exec --user=laradock workspace composer install
+          cd otus-laradock && docker-compose exec --user=laradock workspace composer install
